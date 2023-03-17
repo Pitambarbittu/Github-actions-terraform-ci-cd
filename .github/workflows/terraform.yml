@@ -47,11 +47,13 @@ jobs:
         echo "** Running Terraform init **"
         terraform init -reconfigure -backend-config="bucket=${{ env.BUCKET}}" -backend-config="key=${{ env.TFSTATE_FILE }}" -backend-config="region=${{ env.aws_region }}"
 
-        echo "** Running Terraform Validate **"
-        terraform validate
-
-        echo "** Running Terraform Plan **"
+    - name: terraform plan
+      run: |
+        cd module
         terraform plan
 
-        echo "** Running Terraform Apply**"
+    - name: terraform apply
+      run: |
+        cd module 
         terraform apply -auto-approve
+       

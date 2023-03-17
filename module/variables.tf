@@ -11,8 +11,8 @@ variable "inst_type" {
 variable "tag_name" {
   type = map(any)
   default = {
-    Name  = "pitamber"
-    Owner = "pitamber.bhadra@cloudeq.com"
+    Name  = "pitambar"
+    Owner = "pitambar.bhadra@cloudeq.com"
   }
 }
 

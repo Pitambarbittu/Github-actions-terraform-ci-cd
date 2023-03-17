@@ -39,8 +39,7 @@ jobs:
         terraform init -reconfigure -backend-config="bucket=${{ env.BUCKET}}" -backend-config="key=${{ env.TFSTATE_FILE }}"
 
 
-    - name: Terraform destroy
+    - name: destroy
       run: |
         cd module
-        echo "** Running Terraform destroy **"
         terraform destroy -auto-approve

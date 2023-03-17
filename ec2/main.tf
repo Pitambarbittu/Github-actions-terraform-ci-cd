@@ -1,5 +1,5 @@
 
-resource "aws_instance" "sm_ec2" {
+resource "aws_instance" "pitambar_ec2" {
     ami = var.ami_id
     instance_type = var.inst_type
     tags = var.tag_name
