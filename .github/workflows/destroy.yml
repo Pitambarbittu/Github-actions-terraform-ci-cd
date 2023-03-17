@@ -21,8 +21,8 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v1
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v2
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -30,13 +30,13 @@ jobs:
         aws-region: "us-east-1"
 
     - name: Terraform hashicorp setup
-      uses: hashicorp/setup-terraform@v2.0.2
+      uses: hashicorp/setup-terraform@v2
     
     - name: Terraform init
       run: |
         cd module
         echo "** Running Terraform init **"
-        terraform init -reconfigure -backend-config="bucket=${{ env.BUCKET}}" -backend-config="key=${{ env.TFSTATE_FILE }}" -backend-config="region=${{ env.aws_region }}"
+        terraform init -reconfigure -backend-config="bucket=${{ env.BUCKET}}" -backend-config="key=${{ env.TFSTATE_FILE }}"
 
 
     - name: Terraform destroy
