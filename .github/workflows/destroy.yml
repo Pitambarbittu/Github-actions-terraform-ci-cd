@@ -1,0 +1,43 @@
+name: Terraform Destroy
+
+on:
+  push:
+    branch:
+      - master
+
+env:
+  aws_region: us-east-1
+  BUCKET: pitambar-bucket
+  TFSTATE_FILE: Terraform.tfstate
+
+jobs:
+  terraform-init:
+    name: Terraform Validation and Build
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+        aws-region: "us-east-1"
+
+    - name: Terraform hashicorp setup
+      uses: hashicorp/setup-terraform@v2.0.2
+    
+    - name: Terraform init
+      run: |
+        cd module
+        echo "** Running Terraform init **"
+        terraform init -reconfigure -backend-config="bucket=${{ env.BUCKET}}" -backend-config="key=${{ env.TFSTATE_FILE }}" -backend-config="region=${{ env.aws_region }}"
+
+
+    - name: Terraform destroy
+      run: |
+        cd module
+        echo "** Running Terraform destroy **"
+        terraform destroy -auto-approve
