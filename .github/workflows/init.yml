@@ -5,6 +5,8 @@ on:
     branch:
       - master
 
+  workflow-dispatch:
+
 env:
   aws_region: us-east-1
   BUCKET: pitambar-bucket
@@ -32,7 +34,7 @@ jobs:
     - name: Terraform init, plan and apply
       run: |
         cd module
-        
+
         echo 'pwd'
         echo "** Running Terraform init **"
         terraform init -reconfigure -backend-config="bucket=${{ env.BUCKET}}" -backend-config="key=${{ env.TFSTATE_FILE }}" -backend-config="region=${{ env.aws_region }}"
